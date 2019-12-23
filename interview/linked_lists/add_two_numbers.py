@@ -37,6 +37,48 @@ def add_two_numbers(l1: ListNode, l2: ListNode) -> ListNode:
     return dummy_head.next
 
 
+def add_two_numbers_forward_order(l1: ListNode, l2: ListNode) -> ListNode:
+    """
+    Suppose the digits are stored in forward order. Repeat the above problem.
+    Example:
+        (6->1->7) + (2->9->5) = 617+295 = (9->1->2) = 912
+    """
+    stack1 = []
+    stack2 = []
+
+    while l1:
+        stack1.append(l1.val)
+        l1 = l1.next
+    while l2:
+        stack2.append(l2.val)
+        l2 = l2.next
+
+    len1 = len(stack1)
+    len2 = len(stack2)
+
+    ans = ListNode(-1)
+    dummy = ans
+    carry = 0
+    while len1 > 0 or len2 > 0:
+        val1 = stack1.pop() if len1 > 0 else 0
+        val2 = stack2.pop() if len2 > 0 else 0
+
+        val = val1 + val2 + carry
+        carry = val // 10
+        digit = val % 10
+        dummy.next = ListNode(digit)
+        dummy = dummy.next
+        len1 += -1
+        len2 += -1
+
+    if carry > 0:
+        dummy.next = ListNode(carry)
+
+    return ans.next
+
+
+
+
 class TestSolution(unittest.TestCase):
 
     def test_solution(self):
@@ -50,6 +92,18 @@ class TestSolution(unittest.TestCase):
         self.assertTrue(ans.val == 7)
         self.assertTrue(ans.next.val == 0)
         self.assertTrue(ans.next.next.val == 8)
+
+    def test_solution_forward(self):
+        l1 = ListNode(6)
+        l1.next = ListNode(1)
+        l1.next.next = ListNode(7)
+        l2 = ListNode(2)
+        l2.next = ListNode(9)
+        l2.next.next = ListNode(5)
+        ans = add_two_numbers_forward_order(l1, l2)
+        self.assertTrue(ans.val == 9)
+        self.assertTrue(ans.next.val == 1)
+        self.assertTrue(ans.next.next.val == 2)
 
 
 if __name__ == '__main__':
