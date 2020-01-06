@@ -40,7 +40,7 @@ class Solution:
                 # move start up
                 if hash_map[s[start]] == 1:
                     distinct_chars += -1
-                hash_map[s[start]] = + -1
+                hash_map[s[start]] += -1
                 start += 1
             ans = max(ans, end - start)
         return ans
