@@ -1,6 +1,11 @@
 import collections 
 from interview.data_structures.LinkedList import SingleLinkedList
 
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
 
 def k_to_the_last_iterative(linked_list, k):
     size_counter = 0
